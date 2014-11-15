@@ -17,26 +17,27 @@ def get_namedtuple(name, d=None, _verbose=False, _rename=False, **kw):
     >>> s.x, s.y
     (3, 5)
 
-    Note that the ordering of the fields is not preserved from the order
-    of the arguments. To access the fields by index, you must first determine
-    the index of the attribute you want by looking at the _fields attribute:
-
-    >>> i = s._fields.index('y')
-    >>> s[i]
-    5
-
     This function can also take a dictionary as input:
 
     >>> g = {'informal': 'Hi there!', 'formal': 'Hello; nice to meet you.'}
     >>> get_namedtuple('Greetings', g)
     Greetings(formal='Hello; nice to meet you.', informal='Hi there!')
 
+    It raises a ValueError if passed both a dictionary and keyword arguments
+    for namedtuple fields.
+
+    Note from the above example that the order of the fields is not preserved
+    from the order of the arguments. To access the fields by index, you must
+    first determine the index of the attribute you want by looking at the
+    _fields attribute:
+
+    >>> i = s._fields.index('y')
+    >>> s[i]
+    5
+
     If _verbose and/or _rename are true, it calls namedtuple with verbose and
     rename respectively; these arguments begin with an underscore to allow
     callers to specify fields called 'verbose' and 'rename'.
-
-    It raises a ValueError if passed both a dictionary and keyword arguments
-    for namedtuple fields.
 
     This function performs no error handling around the namedtuple call, and
     may raise any error that namedtuple does.
