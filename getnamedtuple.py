@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+
 def get_namedtuple(name, d=None, _verbose=False, _rename=False, **kw):
     '''
     Creates a one-off namedtuple without explicitly instantiating it as a new
