@@ -1,8 +1,10 @@
 A collection of small utilities for use in larger projects.
 
-This code is posted here with no warranties. UNSUITABLE FOR ANY PORPOISE!
+This code is posted here with no warranties. Unsuitable for any porpoise!
 
-![](/../img/unsuitable.jpg "don't get any bright ideas")
+![](/../img/unsuitable.jpg)
+
+That's right, ya big fish, don't get any bright ideas.
 
 If you like this, it'd be nice if you told me so. If you modify it, it'd be nice if you shared too. I'd love to learn from your code.
 
