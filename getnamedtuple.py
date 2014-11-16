@@ -8,7 +8,7 @@ except:
 
 namedtuple_has_rename_kwarg = sys.version_info[:2] >= (2, 7)
 
-def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
+def get_namedtuple(name, data_arg=None, _verbose=False, _rename=False, **kw):
     '''
     Creates a one-off namedtuple with a single function call, without
     explicitly instantiating it as a new class. For example, what was once:
@@ -76,19 +76,19 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     module.
     '''
 
-    if data is not None and kw != {}:
-        msg = 'get_namedtuple() called with {} and {}, but '.format(data, kw)
+    if data_arg is not None and kw != {}:
+        msg = 'get_namedtuple() called with {} and {}, but '.format(data_arg, kw)
         msg += 'it takes a collection or keyword arguments, not both.'
         raise ValueError(msg)
 
     # constructing OrderedDict allows ordered inputs like
     # [('key1', 1), ('key2', 2)]
-    ntkw = OrderedDict(data) if data is not None else kw
+    kw = OrderedDict(data_arg) if data_arg is not None else kw
 
     # prepare keyword arguments for namedtuple() call
-    nt_class_kw = {'verbose': _verbose}
+    nt_opts = {'verbose': _verbose}
     # rename kwarg introduced in 2.7
-        nt_class_kw['rename'] = _rename
     if namedtuple_has_rename_kwarg:
+        nt_opts['rename'] = _rename
 
-    return namedtuple(name, ntkw.keys(), **nt_class_kw)(**ntkw)
+    return namedtuple(name, kw.keys(), **nt_opts)(**kw)
