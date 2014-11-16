@@ -71,7 +71,7 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
 
     if data is not None and kw != {}:
         msg = 'get_namedtuple() called with {} and {}, but '.format(data, kw)
-        msg += 'it takes a dictionary or keyword arguments, not both.'
+        msg += 'it takes a collection or keyword arguments, not both.'
         raise ValueError(msg)
 
     # constructing OrderedDict allows ordered inputs like
