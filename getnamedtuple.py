@@ -1,7 +1,7 @@
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 
 
-def get_namedtuple(name, d=None, _verbose=False, _rename=False, **kw):
+def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     '''
     Creates a one-off namedtuple without explicitly instantiating it as a new
     class. For example, what was once:
@@ -42,12 +42,15 @@ def get_namedtuple(name, d=None, _verbose=False, _rename=False, **kw):
     This function performs no error handling around the namedtuple call, and
     may raise any error that namedtuple does.
     '''
-    if d is not None and kw != {}:
-        msg = 'get_namedtuple() called with {} and {}, but '.format(d, kw)
+
+    if data is not None and kw != {}:
+        msg = 'get_namedtuple() called with {} and {}, but '.format(data, kw)
         msg += 'it takes a dictionary or keyword arguments, not both.'
         raise ValueError(msg)
 
-    ntkw = d if d is not None else kw
+    # constructing OrderedDict allows ordered inputs like
+    # [('key1', 1), ('key2', 2)]
+    ntkw = OrderedDict(data) if data is not None else kw
 
     return namedtuple(name, ntkw.keys(),
                       verbose=_verbose, rename=_rename)(**ntkw)
