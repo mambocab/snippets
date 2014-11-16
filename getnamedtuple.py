@@ -6,6 +6,7 @@ try:
 except:
     from ordereddict import OrderedDict
 
+namedtuple_has_rename_kwarg = sys.version_info[:2] >= (2, 7)
 
 def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     '''
@@ -87,7 +88,7 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     # prepare keyword arguments for namedtuple() call
     nt_class_kw = {'verbose': _verbose}
     # rename kwarg introduced in 2.7
-    if sys.version_info[:2] >= (2, 7):
         nt_class_kw['rename'] = _rename
+    if namedtuple_has_rename_kwarg:
 
     return namedtuple(name, ntkw.keys(), **nt_class_kw)(**ntkw)
