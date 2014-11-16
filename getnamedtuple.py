@@ -3,8 +3,8 @@ from collections import namedtuple, OrderedDict
 
 def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     '''
-    Creates a one-off namedtuple without explicitly instantiating it as a new
-    class. For example, what was once:
+    Creates a one-off namedtuple with a single function call, without
+    explicitly instantiating it as a new class. For example, what was once:
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> p = Point(3, 5)
