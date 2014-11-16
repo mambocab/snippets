@@ -1,4 +1,10 @@
-from collections import namedtuple, OrderedDict
+import sys
+from collections import namedtuple
+
+try:
+    from collections import OrderedDict
+except:
+    from ordereddict import OrderedDict
 
 
 def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
@@ -78,5 +84,10 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     # [('key1', 1), ('key2', 2)]
     ntkw = OrderedDict(data) if data is not None else kw
 
-    return namedtuple(name, ntkw.keys(),
-                      verbose=_verbose, rename=_rename)(**ntkw)
+    # prepare keyword arguments for namedtuple() call
+    nt_class_kw = {'verbose': _verbose}
+    # rename kwarg introduced in 2.7
+    if sys.version_info[:2] >= (2, 7):
+        nt_class_kw['rename'] = _rename
+
+    return namedtuple(name, ntkw.keys(), **nt_class_kw)(**ntkw)
