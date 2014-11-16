@@ -24,7 +24,7 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     >>> p.x, p.y
     (3, 5)
 
-    This function can also take a dictionary as input:
+    This function can also take a key-value collection as input:
 
     >>> g = {'informal': 'Hi there!', 'formal': 'Hello; nice to meet you.'}
     >>> greetings = get_namedtuple('Greetings', g)
@@ -33,7 +33,7 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     >>> greetings.formal
     'Hello; nice to meet you.'
 
-    It raises a ValueError if passed both a dictionary and keyword arguments
+    It raises a ValueError if passed both a collection and keyword arguments
     for namedtuple fields.
 
     Note that, in the above ways of calling get_namedtuple, the order of the
@@ -52,7 +52,7 @@ def get_namedtuple(name, data=None, _verbose=False, _rename=False, **kw):
     keyword arguments.
 
     You can also get namedtuples with guaranteed field order, sidestepping the
-    problem entirely, by passing an ordered collection of name-value pairs:
+    problem entirely, by passing an ordered collection of key-value pairs:
 
     >>> get_namedtuple('Point', (('a', 5), ('b', 7)))._fields
     ('a', 'b')
