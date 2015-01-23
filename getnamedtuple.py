@@ -8,7 +8,11 @@ except:
 
 namedtuple_has_rename_kwarg = sys.version_info[:2] >= (2, 7)
 
-def get_namedtuple(name, data_arg=None, _verbose=False, _rename=False, **kw):
+def get_namedtuple(_name='AnonymousNamedtuple',
+                   _data_arg=None,
+                   _verbose=False,
+                   _rename=False,
+                   **kw):
     '''
     Creates a one-off namedtuple with a single function call, without
     explicitly instantiating it as a new class. For example, what was once:
@@ -23,6 +27,27 @@ def get_namedtuple(name, data_arg=None, _verbose=False, _rename=False, **kw):
     >>> p = get_namedtuple('Point', x=3, y=5)
     >>> p.x, p.y
     (3, 5)
+
+    You can use this to easily make anonymous, immutable objects with
+    attributes accessible by dot syntax:
+
+    >>> me = get_namedtuple(name='Jim', language='Python')
+    >>> me.name
+    'Jim'
+    >>> me.language
+    'Python'
+
+    The class of these objects instantiated without class names will be
+    'AnonymousNamedtuple'. However, though the classes of different
+    AnonymousNamedtuples share a name, the instances do not share a class!
+
+    >>> me.__class__.__name__
+    'AnonymousNamedtuple'
+    >>> bdfl = get_namedtuple(name='Guido', language='Python')
+    >>> bdfl.__class__.__name__
+    'AnonymousNamedtuple'
+    >>> me.__class__ == bdfl.__class__
+    False
 
     This function can also take a key-value collection as input:
 
@@ -76,14 +101,15 @@ def get_namedtuple(name, data_arg=None, _verbose=False, _rename=False, **kw):
     module.
     '''
 
-    if data_arg is not None and kw != {}:
-        msg = 'get_namedtuple() called with {} and {}, but '.format(data_arg, kw)
-        msg += 'it takes a collection or keyword arguments, not both.'
+    if _data_arg is not None and kw != {}:
+        msg = ('get_namedtuple() called with {_data_arg} and keyword '
+               'arguments{kw}, but it takes a collection or keyword '
+               'arguments, not both.').format(_data_arg, kw)
         raise ValueError(msg)
 
     # constructing OrderedDict allows ordered inputs like
     # [('key1', 1), ('key2', 2)]
-    kw = OrderedDict(data_arg) if data_arg is not None else kw
+    kw = OrderedDict(_data_arg) if _data_arg is not None else kw
 
     # prepare keyword arguments for namedtuple() call
     nt_opts = {'verbose': _verbose}
@@ -91,4 +117,4 @@ def get_namedtuple(name, data_arg=None, _verbose=False, _rename=False, **kw):
     if namedtuple_has_rename_kwarg:
         nt_opts['rename'] = _rename
 
-    return namedtuple(name, kw.keys(), **nt_opts)(**kw)
+    return namedtuple(_name, kw.keys(), **nt_opts)(**kw)
